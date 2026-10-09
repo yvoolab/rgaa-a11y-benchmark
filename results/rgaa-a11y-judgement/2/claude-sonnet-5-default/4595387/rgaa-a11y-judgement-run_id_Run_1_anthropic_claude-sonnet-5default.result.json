@@ -1,0 +1,33 @@
+{
+  "task_name": "rgaa-a11y-judgement",
+  "trial_name": "rgaa-a11y-judgement-Run #1",
+  "trial_uri": "kbench://not-a-harbor-trial",
+  "task_id": {
+    "path": "kbench://not-a-harbor-task"
+  },
+  "task_checksum": "unknown (kbench)",
+  "config": {
+    "task": {
+      "path": "kbench://not-a-harbor-task"
+    }
+  },
+  "agent_info": {
+    "name": "kaggle-benchmarks",
+    "version": "0.6.1",
+    "model_info": {
+      "name": "anthropic/claude-sonnet-5@default"
+    }
+  },
+  "agent_result": {
+    "n_input_tokens": 770,
+    "n_output_tokens": 581,
+    "cost_usd": 0.00735
+  },
+  "verifier_result": {
+    "rewards": {
+      "score": 6.0
+    }
+  },
+  "started_at": "2026-10-09T06:48:39.691991Z",
+  "finished_at": "2026-10-09T06:48:51.037386Z"
+}

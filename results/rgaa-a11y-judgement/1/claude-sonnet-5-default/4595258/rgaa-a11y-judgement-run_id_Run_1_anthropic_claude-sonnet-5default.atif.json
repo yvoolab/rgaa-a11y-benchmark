@@ -1,0 +1,372 @@
+{
+  "schema_version": "ATIF-v1.7",
+  "session_id": "rgaa-a11y-judgement-Run #1",
+  "trajectory_id": "rgaa-a11y-judgement-Run #1",
+  "agent": {
+    "name": "kaggle-benchmarks",
+    "version": "0.6.1",
+    "model_name": "anthropic/claude-sonnet-5@default"
+  },
+  "steps": [
+    {
+      "step_id": 1,
+      "source": "system",
+      "message": "[placeholder] No conversation recorded.",
+      "timestamp": "2026-10-09T06:27:42.723782Z"
+    },
+    {
+      "step_id": 2,
+      "source": "system",
+      "message": "[delegated] Other trajectories from this run: img-no-alt, input-no-label, low-contrast, div-button, no-lang, ok-link.",
+      "observation": {
+        "results": [
+          {
+            "subagent_trajectory_ref": [
+              {
+                "trajectory_id": "rgaa-a11y-judgement-Run #1::img-no-alt-4bdeb5c3",
+                "extra": {
+                  "kbench_chat": "img-no-alt"
+                }
+              },
+              {
+                "trajectory_id": "rgaa-a11y-judgement-Run #1::input-no-label-678e405e",
+                "extra": {
+                  "kbench_chat": "input-no-label"
+                }
+              },
+              {
+                "trajectory_id": "rgaa-a11y-judgement-Run #1::low-contrast-04d6604a",
+                "extra": {
+                  "kbench_chat": "low-contrast"
+                }
+              },
+              {
+                "trajectory_id": "rgaa-a11y-judgement-Run #1::div-button-acc702e2",
+                "extra": {
+                  "kbench_chat": "div-button"
+                }
+              },
+              {
+                "trajectory_id": "rgaa-a11y-judgement-Run #1::no-lang-e29d55c9",
+                "extra": {
+                  "kbench_chat": "no-lang"
+                }
+              },
+              {
+                "trajectory_id": "rgaa-a11y-judgement-Run #1::ok-link-163bcd7b",
+                "extra": {
+                  "kbench_chat": "ok-link"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "notes": "Converted from kbench run.json for task 'rgaa-a11y-judgement'. No model turn was recorded, so total_steps is 0 and the first step below is a placeholder.",
+  "final_metrics": {
+    "total_prompt_tokens": 770,
+    "total_completion_tokens": 466,
+    "total_cost_usd": 0.00619,
+    "total_steps": 0,
+    "extra": {
+      "kbench_result": {
+        "score": 6.0,
+        "score_confidence_interval": 6.0
+      }
+    }
+  },
+  "extra": {
+    "kbench": {
+      "task_version": {
+        "version_number": 1,
+        "name": "rgaa-a11y-judgement",
+        "description": "Six HTML fragments; name the violated WCAG 2.2 criterion (or NONE). (passed, 6).",
+        "definition": "@kbench.task(\n    name=\"rgaa-a11y-judgement\",\n    description=\"Six HTML fragments; name the violated WCAG 2.2 criterion (or NONE). (passed, 6).\",\n)\ndef rgaa_a11y_judgement(llm) -> tuple[int, int]:\n    passed = 0\n    for slug, html, accepted in CASES:\n        with kbench.chats.new(slug):\n            response = llm.prompt(PROMPT.format(html=html))\n        ok = any(a.lower() in response.lower() for a in accepted)\n        kbench.assertions.assert_true(ok, expectation=f\"{slug}: should name one of {'/'.join(accepted)}\")\n        passed += ok\n    return passed, len(CASES)\n"
+      },
+      "state": "BENCHMARK_TASK_RUN_STATE_COMPLETED",
+      "end_time": "2026-10-09T06:27:51.382005Z",
+      "assertions": [
+        {
+          "expectation": "img-no-alt: should name one of 1.1.1",
+          "status": "BENCHMARK_TASK_RUN_ASSERTION_STATUS_PASSED",
+          "line_number": 29,
+          "definition": "kbench.assertions.assert_true(ok, expectation=f\"{slug}: should name one of {'/'.join(accepted)}\")",
+          "conversation_request_ids": [
+            {
+              "conversation_id": "rgaa-a11y-judgement-12b127c7"
+            }
+          ]
+        },
+        {
+          "expectation": "input-no-label: should name one of 1.3.1/3.3.2/4.1.2",
+          "status": "BENCHMARK_TASK_RUN_ASSERTION_STATUS_PASSED",
+          "line_number": 29,
+          "definition": "kbench.assertions.assert_true(ok, expectation=f\"{slug}: should name one of {'/'.join(accepted)}\")",
+          "conversation_request_ids": [
+            {
+              "conversation_id": "rgaa-a11y-judgement-12b127c7"
+            }
+          ]
+        },
+        {
+          "expectation": "low-contrast: should name one of 1.4.3",
+          "status": "BENCHMARK_TASK_RUN_ASSERTION_STATUS_PASSED",
+          "line_number": 29,
+          "definition": "kbench.assertions.assert_true(ok, expectation=f\"{slug}: should name one of {'/'.join(accepted)}\")",
+          "conversation_request_ids": [
+            {
+              "conversation_id": "rgaa-a11y-judgement-12b127c7"
+            }
+          ]
+        },
+        {
+          "expectation": "div-button: should name one of 2.1.1/4.1.2",
+          "status": "BENCHMARK_TASK_RUN_ASSERTION_STATUS_PASSED",
+          "line_number": 29,
+          "definition": "kbench.assertions.assert_true(ok, expectation=f\"{slug}: should name one of {'/'.join(accepted)}\")",
+          "conversation_request_ids": [
+            {
+              "conversation_id": "rgaa-a11y-judgement-12b127c7"
+            }
+          ]
+        },
+        {
+          "expectation": "no-lang: should name one of 3.1.1",
+          "status": "BENCHMARK_TASK_RUN_ASSERTION_STATUS_PASSED",
+          "line_number": 29,
+          "definition": "kbench.assertions.assert_true(ok, expectation=f\"{slug}: should name one of {'/'.join(accepted)}\")",
+          "conversation_request_ids": [
+            {
+              "conversation_id": "rgaa-a11y-judgement-12b127c7"
+            }
+          ]
+        },
+        {
+          "expectation": "ok-link: should name one of NONE",
+          "status": "BENCHMARK_TASK_RUN_ASSERTION_STATUS_PASSED",
+          "line_number": 29,
+          "definition": "kbench.assertions.assert_true(ok, expectation=f\"{slug}: should name one of {'/'.join(accepted)}\")",
+          "conversation_request_ids": [
+            {
+              "conversation_id": "rgaa-a11y-judgement-12b127c7"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "subagent_trajectories": [
+    {
+      "schema_version": "ATIF-v1.7",
+      "trajectory_id": "rgaa-a11y-judgement-Run #1::img-no-alt-4bdeb5c3",
+      "agent": {
+        "name": "img-no-alt",
+        "version": "0.6.1"
+      },
+      "steps": [
+        {
+          "step_id": 1,
+          "source": "user",
+          "message": "You are auditing a French public website for RGAA 4.1 / WCAG 2.2 compliance.\nHTML fragment:\n<img src=\"hero.jpg\">\n\nWhich single WCAG 2.2 success criterion does this fragment most directly violate? Answer with the criterion number only (e.g. 1.1.1), or NONE if it is compliant.",
+          "extra": {
+            "sender_name": "User"
+          },
+          "timestamp": "2026-10-09T06:27:42.723782Z"
+        },
+        {
+          "step_id": 2,
+          "source": "agent",
+          "message": "1.1.1",
+          "extra": {
+            "sender_name": "anthropic/claude-sonnet-5@default"
+          },
+          "metrics": {
+            "prompt_tokens": 120,
+            "completion_tokens": 7,
+            "cost_usd": 0.00031,
+            "extra": {
+              "total_backend_latency_ms": 391
+            }
+          }
+        }
+      ]
+    },
+    {
+      "schema_version": "ATIF-v1.7",
+      "trajectory_id": "rgaa-a11y-judgement-Run #1::input-no-label-678e405e",
+      "agent": {
+        "name": "input-no-label",
+        "version": "0.6.1"
+      },
+      "steps": [
+        {
+          "step_id": 1,
+          "source": "user",
+          "message": "You are auditing a French public website for RGAA 4.1 / WCAG 2.2 compliance.\nHTML fragment:\n<input type=\"text\" id=\"q\" placeholder=\"Rechercher\">\n\nWhich single WCAG 2.2 success criterion does this fragment most directly violate? Answer with the criterion number only (e.g. 1.1.1), or NONE if it is compliant.",
+          "extra": {
+            "sender_name": "User"
+          },
+          "timestamp": "2026-10-09T06:27:42.723782Z"
+        },
+        {
+          "step_id": 2,
+          "source": "agent",
+          "message": "1.3.1",
+          "extra": {
+            "sender_name": "anthropic/claude-sonnet-5@default"
+          },
+          "metrics": {
+            "prompt_tokens": 130,
+            "completion_tokens": 180,
+            "cost_usd": 0.00206,
+            "extra": {
+              "total_backend_latency_ms": 2425
+            }
+          }
+        }
+      ]
+    },
+    {
+      "schema_version": "ATIF-v1.7",
+      "trajectory_id": "rgaa-a11y-judgement-Run #1::low-contrast-04d6604a",
+      "agent": {
+        "name": "low-contrast",
+        "version": "0.6.1"
+      },
+      "steps": [
+        {
+          "step_id": 1,
+          "source": "user",
+          "message": "You are auditing a French public website for RGAA 4.1 / WCAG 2.2 compliance.\nHTML fragment:\n<p style=\"color:#999;background:#fff\">Mentions l\u00e9gales</p>\n\nWhich single WCAG 2.2 success criterion does this fragment most directly violate? Answer with the criterion number only (e.g. 1.1.1), or NONE if it is compliant.",
+          "extra": {
+            "sender_name": "User"
+          },
+          "timestamp": "2026-10-09T06:27:42.723782Z"
+        },
+        {
+          "step_id": 2,
+          "source": "agent",
+          "message": "1.4.3",
+          "extra": {
+            "sender_name": "anthropic/claude-sonnet-5@default"
+          },
+          "metrics": {
+            "prompt_tokens": 133,
+            "completion_tokens": 226,
+            "cost_usd": 0.002516,
+            "extra": {
+              "total_backend_latency_ms": 3086
+            }
+          }
+        }
+      ]
+    },
+    {
+      "schema_version": "ATIF-v1.7",
+      "trajectory_id": "rgaa-a11y-judgement-Run #1::div-button-acc702e2",
+      "agent": {
+        "name": "div-button",
+        "version": "0.6.1"
+      },
+      "steps": [
+        {
+          "step_id": 1,
+          "source": "user",
+          "message": "You are auditing a French public website for RGAA 4.1 / WCAG 2.2 compliance.\nHTML fragment:\n<div onclick=\"go()\">Valider</div>\n\nWhich single WCAG 2.2 success criterion does this fragment most directly violate? Answer with the criterion number only (e.g. 1.1.1), or NONE if it is compliant.",
+          "extra": {
+            "sender_name": "User"
+          },
+          "timestamp": "2026-10-09T06:27:42.723782Z"
+        },
+        {
+          "step_id": 2,
+          "source": "agent",
+          "message": "4.1.2",
+          "extra": {
+            "sender_name": "anthropic/claude-sonnet-5@default"
+          },
+          "metrics": {
+            "prompt_tokens": 124,
+            "completion_tokens": 7,
+            "cost_usd": 0.000318,
+            "extra": {
+              "total_backend_latency_ms": 444
+            }
+          }
+        }
+      ]
+    },
+    {
+      "schema_version": "ATIF-v1.7",
+      "trajectory_id": "rgaa-a11y-judgement-Run #1::no-lang-e29d55c9",
+      "agent": {
+        "name": "no-lang",
+        "version": "0.6.1"
+      },
+      "steps": [
+        {
+          "step_id": 1,
+          "source": "user",
+          "message": "You are auditing a French public website for RGAA 4.1 / WCAG 2.2 compliance.\nHTML fragment:\n<html><head><title>Accueil</title></head><body>Bonjour</body></html>\n\nWhich single WCAG 2.2 success criterion does this fragment most directly violate? Answer with the criterion number only (e.g. 1.1.1), or NONE if it is compliant.",
+          "extra": {
+            "sender_name": "User"
+          },
+          "timestamp": "2026-10-09T06:27:42.723782Z"
+        },
+        {
+          "step_id": 2,
+          "source": "agent",
+          "message": "3.1.1",
+          "extra": {
+            "sender_name": "anthropic/claude-sonnet-5@default"
+          },
+          "metrics": {
+            "prompt_tokens": 137,
+            "completion_tokens": 41,
+            "cost_usd": 0.000684,
+            "extra": {
+              "total_backend_latency_ms": 927
+            }
+          }
+        }
+      ]
+    },
+    {
+      "schema_version": "ATIF-v1.7",
+      "trajectory_id": "rgaa-a11y-judgement-Run #1::ok-link-163bcd7b",
+      "agent": {
+        "name": "ok-link",
+        "version": "0.6.1"
+      },
+      "steps": [
+        {
+          "step_id": 1,
+          "source": "user",
+          "message": "You are auditing a French public website for RGAA 4.1 / WCAG 2.2 compliance.\nHTML fragment:\n<a href=\"/contact\">Nous contacter</a>\n\nWhich single WCAG 2.2 success criterion does this fragment most directly violate? Answer with the criterion number only (e.g. 1.1.1), or NONE if it is compliant.",
+          "extra": {
+            "sender_name": "User"
+          },
+          "timestamp": "2026-10-09T06:27:42.723782Z"
+        },
+        {
+          "step_id": 2,
+          "source": "agent",
+          "message": "NONE",
+          "extra": {
+            "sender_name": "anthropic/claude-sonnet-5@default"
+          },
+          "metrics": {
+            "prompt_tokens": 126,
+            "completion_tokens": 5,
+            "cost_usd": 0.000302,
+            "extra": {
+              "total_backend_latency_ms": 455
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

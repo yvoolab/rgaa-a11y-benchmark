@@ -1,0 +1,357 @@
+{
+  "taskVersion": {
+    "versionNumber": 1,
+    "name": "rgaa-a11y-judgement",
+    "description": "Six HTML fragments; name the violated WCAG 2.2 criterion (or NONE). (passed, 6).",
+    "definition": "@kbench.task(\n    name=\"rgaa-a11y-judgement\",\n    description=\"Six HTML fragments; name the violated WCAG 2.2 criterion (or NONE). (passed, 6).\",\n)\ndef rgaa_a11y_judgement(llm) -> tuple[int, int]:\n    passed = 0\n    for slug, html, accepted in CASES:\n        with kbench.chats.new(slug):\n            response = llm.prompt(PROMPT.format(html=html))\n        ok = any(a.lower() in response.lower() for a in accepted)\n        kbench.assertions.assert_true(ok, expectation=f\"{slug}: should name one of {'/'.join(accepted)}\")\n        passed += ok\n    return passed, len(CASES)\n"
+  },
+  "modelVersion": {
+    "slug": "google/gemini-3.7-flash"
+  },
+  "state": "BENCHMARK_TASK_RUN_STATE_COMPLETED",
+  "startTime": "2026-10-09T06:25:23.056881Z",
+  "endTime": "2026-10-09T06:26:24.244880Z",
+  "conversations": [
+    {
+      "id": "rgaa-a11y-judgement-35be0138",
+      "metrics": {},
+      "modelVersionSlug": "model_version_slug for conversation is DEPRECATED"
+    },
+    {
+      "id": "img-no-alt-9ee22142",
+      "requests": [
+        {
+          "contents": [
+            {
+              "parts": [
+                {
+                  "text": "You are auditing a French public website for RGAA 4.1 / WCAG 2.2 compliance.\nHTML fragment:\n<img src=\"hero.jpg\">\n\nWhich single WCAG 2.2 success criterion does this fragment most directly violate? Answer with the criterion number only (e.g. 1.1.1), or NONE if it is compliant."
+                }
+              ],
+              "role": "CONTENT_ROLE_USER",
+              "senderName": "User"
+            },
+            {
+              "parts": [
+                {
+                  "text": "1.1.1"
+                }
+              ],
+              "role": "CONTENT_ROLE_ASSISTANT",
+              "senderName": "google/gemini-3.7-flash"
+            }
+          ],
+          "metrics": {
+            "inputTokens": 80,
+            "outputTokens": 362,
+            "inputTokensCostNanodollars": "60000",
+            "outputTokensCostNanodollars": "1357500",
+            "totalBackendLatencyMs": "3504"
+          },
+          "id": "img-no-alt-9ee22142-req-1"
+        }
+      ],
+      "metrics": {
+        "inputTokens": 80,
+        "outputTokens": 362,
+        "inputTokensCostNanodollars": "60000",
+        "outputTokensCostNanodollars": "1357500",
+        "totalBackendLatencyMs": "3504"
+      },
+      "modelVersionSlug": "model_version_slug for conversation is DEPRECATED"
+    },
+    {
+      "id": "input-no-label-16b4ab33",
+      "requests": [
+        {
+          "contents": [
+            {
+              "parts": [
+                {
+                  "text": "You are auditing a French public website for RGAA 4.1 / WCAG 2.2 compliance.\nHTML fragment:\n<input type=\"text\" id=\"q\" placeholder=\"Rechercher\">\n\nWhich single WCAG 2.2 success criterion does this fragment most directly violate? Answer with the criterion number only (e.g. 1.1.1), or NONE if it is compliant."
+                }
+              ],
+              "role": "CONTENT_ROLE_USER",
+              "senderName": "User"
+            },
+            {
+              "parts": [
+                {
+                  "text": "3.3.2"
+                }
+              ],
+              "role": "CONTENT_ROLE_ASSISTANT",
+              "senderName": "google/gemini-3.7-flash"
+            }
+          ],
+          "metrics": {
+            "inputTokens": 88,
+            "outputTokens": 3388,
+            "inputTokensCostNanodollars": "66000",
+            "outputTokensCostNanodollars": "12705000",
+            "totalBackendLatencyMs": "28292"
+          },
+          "id": "input-no-label-16b4ab33-req-1"
+        }
+      ],
+      "metrics": {
+        "inputTokens": 88,
+        "outputTokens": 3388,
+        "inputTokensCostNanodollars": "66000",
+        "outputTokensCostNanodollars": "12705000",
+        "totalBackendLatencyMs": "28292"
+      },
+      "modelVersionSlug": "model_version_slug for conversation is DEPRECATED"
+    },
+    {
+      "id": "low-contrast-43d05b8e",
+      "requests": [
+        {
+          "contents": [
+            {
+              "parts": [
+                {
+                  "text": "You are auditing a French public website for RGAA 4.1 / WCAG 2.2 compliance.\nHTML fragment:\n<p style=\"color:#999;background:#fff\">Mentions l\u00e9gales</p>\n\nWhich single WCAG 2.2 success criterion does this fragment most directly violate? Answer with the criterion number only (e.g. 1.1.1), or NONE if it is compliant."
+                }
+              ],
+              "role": "CONTENT_ROLE_USER",
+              "senderName": "User"
+            },
+            {
+              "parts": [
+                {
+                  "text": "1.4.3"
+                }
+              ],
+              "role": "CONTENT_ROLE_ASSISTANT",
+              "senderName": "google/gemini-3.7-flash"
+            }
+          ],
+          "metrics": {
+            "inputTokens": 92,
+            "outputTokens": 403,
+            "inputTokensCostNanodollars": "69000",
+            "outputTokensCostNanodollars": "1511250",
+            "totalBackendLatencyMs": "4649"
+          },
+          "id": "low-contrast-43d05b8e-req-1"
+        }
+      ],
+      "metrics": {
+        "inputTokens": 92,
+        "outputTokens": 403,
+        "inputTokensCostNanodollars": "69000",
+        "outputTokensCostNanodollars": "1511250",
+        "totalBackendLatencyMs": "4649"
+      },
+      "modelVersionSlug": "model_version_slug for conversation is DEPRECATED"
+    },
+    {
+      "id": "div-button-e644a09a",
+      "requests": [
+        {
+          "contents": [
+            {
+              "parts": [
+                {
+                  "text": "You are auditing a French public website for RGAA 4.1 / WCAG 2.2 compliance.\nHTML fragment:\n<div onclick=\"go()\">Valider</div>\n\nWhich single WCAG 2.2 success criterion does this fragment most directly violate? Answer with the criterion number only (e.g. 1.1.1), or NONE if it is compliant."
+                }
+              ],
+              "role": "CONTENT_ROLE_USER",
+              "senderName": "User"
+            },
+            {
+              "parts": [
+                {
+                  "text": "2.1.1"
+                }
+              ],
+              "role": "CONTENT_ROLE_ASSISTANT",
+              "senderName": "google/gemini-3.7-flash"
+            }
+          ],
+          "metrics": {
+            "inputTokens": 81,
+            "outputTokens": 1606,
+            "inputTokensCostNanodollars": "60750",
+            "outputTokensCostNanodollars": "6022500",
+            "totalBackendLatencyMs": "15308"
+          },
+          "id": "div-button-e644a09a-req-1"
+        }
+      ],
+      "metrics": {
+        "inputTokens": 81,
+        "outputTokens": 1606,
+        "inputTokensCostNanodollars": "60750",
+        "outputTokensCostNanodollars": "6022500",
+        "totalBackendLatencyMs": "15308"
+      },
+      "modelVersionSlug": "model_version_slug for conversation is DEPRECATED"
+    },
+    {
+      "id": "no-lang-2c93a2c4",
+      "requests": [
+        {
+          "contents": [
+            {
+              "parts": [
+                {
+                  "text": "You are auditing a French public website for RGAA 4.1 / WCAG 2.2 compliance.\nHTML fragment:\n<html><head><title>Accueil</title></head><body>Bonjour</body></html>\n\nWhich single WCAG 2.2 success criterion does this fragment most directly violate? Answer with the criterion number only (e.g. 1.1.1), or NONE if it is compliant."
+                }
+              ],
+              "role": "CONTENT_ROLE_USER",
+              "senderName": "User"
+            },
+            {
+              "parts": [
+                {
+                  "text": "3.1.1"
+                }
+              ],
+              "role": "CONTENT_ROLE_ASSISTANT",
+              "senderName": "google/gemini-3.7-flash"
+            }
+          ],
+          "metrics": {
+            "inputTokens": 88,
+            "outputTokens": 280,
+            "inputTokensCostNanodollars": "66000",
+            "outputTokensCostNanodollars": "1050000",
+            "totalBackendLatencyMs": "3196"
+          },
+          "id": "no-lang-2c93a2c4-req-1"
+        }
+      ],
+      "metrics": {
+        "inputTokens": 88,
+        "outputTokens": 280,
+        "inputTokensCostNanodollars": "66000",
+        "outputTokensCostNanodollars": "1050000",
+        "totalBackendLatencyMs": "3196"
+      },
+      "modelVersionSlug": "model_version_slug for conversation is DEPRECATED"
+    },
+    {
+      "id": "ok-link-73e1fc86",
+      "requests": [
+        {
+          "contents": [
+            {
+              "parts": [
+                {
+                  "text": "You are auditing a French public website for RGAA 4.1 / WCAG 2.2 compliance.\nHTML fragment:\n<a href=\"/contact\">Nous contacter</a>\n\nWhich single WCAG 2.2 success criterion does this fragment most directly violate? Answer with the criterion number only (e.g. 1.1.1), or NONE if it is compliant."
+                }
+              ],
+              "role": "CONTENT_ROLE_USER",
+              "senderName": "User"
+            },
+            {
+              "parts": [
+                {
+                  "text": "NONE"
+                }
+              ],
+              "role": "CONTENT_ROLE_ASSISTANT",
+              "senderName": "google/gemini-3.7-flash"
+            }
+          ],
+          "metrics": {
+            "inputTokens": 81,
+            "outputTokens": 308,
+            "inputTokensCostNanodollars": "60750",
+            "outputTokensCostNanodollars": "1155000",
+            "totalBackendLatencyMs": "4561"
+          },
+          "id": "ok-link-73e1fc86-req-1"
+        }
+      ],
+      "metrics": {
+        "inputTokens": 81,
+        "outputTokens": 308,
+        "inputTokensCostNanodollars": "60750",
+        "outputTokensCostNanodollars": "1155000",
+        "totalBackendLatencyMs": "4561"
+      },
+      "modelVersionSlug": "model_version_slug for conversation is DEPRECATED"
+    }
+  ],
+  "results": [
+    {
+      "type": "AGGREGATED",
+      "numericResult": {
+        "value": 6.0,
+        "confidenceInterval": 6.0
+      }
+    }
+  ],
+  "assertions": [
+    {
+      "expectation": "img-no-alt: should name one of 1.1.1",
+      "status": "BENCHMARK_TASK_RUN_ASSERTION_STATUS_PASSED",
+      "lineNumber": 29,
+      "definition": "kbench.assertions.assert_true(ok, expectation=f\"{slug}: should name one of {'/'.join(accepted)}\")",
+      "conversationRequestIds": [
+        {
+          "conversationId": "rgaa-a11y-judgement-35be0138"
+        }
+      ]
+    },
+    {
+      "expectation": "input-no-label: should name one of 1.3.1/3.3.2/4.1.2",
+      "status": "BENCHMARK_TASK_RUN_ASSERTION_STATUS_PASSED",
+      "lineNumber": 29,
+      "definition": "kbench.assertions.assert_true(ok, expectation=f\"{slug}: should name one of {'/'.join(accepted)}\")",
+      "conversationRequestIds": [
+        {
+          "conversationId": "rgaa-a11y-judgement-35be0138"
+        }
+      ]
+    },
+    {
+      "expectation": "low-contrast: should name one of 1.4.3",
+      "status": "BENCHMARK_TASK_RUN_ASSERTION_STATUS_PASSED",
+      "lineNumber": 29,
+      "definition": "kbench.assertions.assert_true(ok, expectation=f\"{slug}: should name one of {'/'.join(accepted)}\")",
+      "conversationRequestIds": [
+        {
+          "conversationId": "rgaa-a11y-judgement-35be0138"
+        }
+      ]
+    },
+    {
+      "expectation": "div-button: should name one of 2.1.1/4.1.2",
+      "status": "BENCHMARK_TASK_RUN_ASSERTION_STATUS_PASSED",
+      "lineNumber": 29,
+      "definition": "kbench.assertions.assert_true(ok, expectation=f\"{slug}: should name one of {'/'.join(accepted)}\")",
+      "conversationRequestIds": [
+        {
+          "conversationId": "rgaa-a11y-judgement-35be0138"
+        }
+      ]
+    },
+    {
+      "expectation": "no-lang: should name one of 3.1.1",
+      "status": "BENCHMARK_TASK_RUN_ASSERTION_STATUS_PASSED",
+      "lineNumber": 29,
+      "definition": "kbench.assertions.assert_true(ok, expectation=f\"{slug}: should name one of {'/'.join(accepted)}\")",
+      "conversationRequestIds": [
+        {
+          "conversationId": "rgaa-a11y-judgement-35be0138"
+        }
+      ]
+    },
+    {
+      "expectation": "ok-link: should name one of NONE",
+      "status": "BENCHMARK_TASK_RUN_ASSERTION_STATUS_PASSED",
+      "lineNumber": 29,
+      "definition": "kbench.assertions.assert_true(ok, expectation=f\"{slug}: should name one of {'/'.join(accepted)}\")",
+      "conversationRequestIds": [
+        {
+          "conversationId": "rgaa-a11y-judgement-35be0138"
+        }
+      ]
+    }
+  ],
+  "pyRunId": "rgaa-a11y-judgement-Run #1"
+}
