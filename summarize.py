@@ -10,6 +10,8 @@ PRIMARY = {"img-no-alt": "1.1.1", "input-no-label": "1.3.1", "low-contrast": "1.
 rows = []
 for f in sorted(glob.glob("results/rgaa-a11y-judgement/2/**/*.run.json", recursive=True)):
     d = json.load(open(f, encoding="utf-8"))
+    if "assertions" not in d:  # errored run (e.g. 429 from the proxy): nothing to score
+        continue
     model = d.get("modelVersion", {}).get("slug") or os.path.basename(os.path.dirname(os.path.dirname(f)))
     answers, cost, latency = {}, 0, 0
     for c in d["conversations"]:

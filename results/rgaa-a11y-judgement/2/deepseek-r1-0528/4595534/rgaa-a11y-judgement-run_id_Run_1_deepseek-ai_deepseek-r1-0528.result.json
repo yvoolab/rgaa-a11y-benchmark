@@ -1,0 +1,33 @@
+{
+  "task_name": "rgaa-a11y-judgement",
+  "trial_name": "rgaa-a11y-judgement-Run #1",
+  "trial_uri": "kbench://not-a-harbor-trial",
+  "task_id": {
+    "path": "kbench://not-a-harbor-task"
+  },
+  "task_checksum": "unknown (kbench)",
+  "config": {
+    "task": {
+      "path": "kbench://not-a-harbor-task"
+    }
+  },
+  "agent_info": {
+    "name": "kaggle-benchmarks",
+    "version": "0.6.1",
+    "model_info": {
+      "name": "deepseek-ai/deepseek-r1-0528"
+    }
+  },
+  "agent_result": {
+    "n_input_tokens": 522,
+    "n_output_tokens": 10759,
+    "cost_usd": 0.0588033
+  },
+  "verifier_result": {
+    "rewards": {
+      "score": 6.0
+    }
+  },
+  "started_at": "2026-10-09T07:51:02.772176Z",
+  "finished_at": "2026-10-09T08:04:30.070079Z"
+}

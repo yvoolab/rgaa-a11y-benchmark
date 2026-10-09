@@ -1,0 +1,356 @@
+{
+  "taskVersion": {
+    "versionNumber": 1,
+    "name": "rgaa-a11y-judgement",
+    "description": "Six HTML fragments; name the violated WCAG 2.2 criterion (or NONE). Score = cases passed out of 6.",
+    "definition": "@kbench.task(\n    name=\"rgaa-a11y-judgement\",\n    description=\"Six HTML fragments; name the violated WCAG 2.2 criterion (or NONE). Score = cases passed out of 6.\",\n)\ndef rgaa_a11y_judgement(llm) -> int:\n    passed = 0\n    for slug, html, accepted in CASES:\n        with kbench.chats.new(slug):\n            response = llm.prompt(PROMPT.format(html=html))\n        ok = any(a.lower() in response.lower() for a in accepted)\n        kbench.assertions.assert_true(ok, expectation=f\"{slug}: should name one of {'/'.join(accepted)}\")\n        passed += ok\n    return passed\n"
+  },
+  "modelVersion": {
+    "slug": "deepseek-ai/deepseek-r1-0528"
+  },
+  "state": "BENCHMARK_TASK_RUN_STATE_COMPLETED",
+  "startTime": "2026-10-09T07:51:02.772176Z",
+  "endTime": "2026-10-09T08:04:30.070079Z",
+  "conversations": [
+    {
+      "id": "rgaa-a11y-judgement-0bba414c",
+      "metrics": {},
+      "modelVersionSlug": "model_version_slug for conversation is DEPRECATED"
+    },
+    {
+      "id": "img-no-alt-46226a31",
+      "requests": [
+        {
+          "contents": [
+            {
+              "parts": [
+                {
+                  "text": "You are auditing a French public website for RGAA 4.1 / WCAG 2.2 compliance.\nHTML fragment:\n<img src=\"hero.jpg\">\n\nWhich single WCAG 2.2 success criterion does this fragment most directly violate? Answer with the criterion number only (e.g. 1.1.1), or NONE if it is compliant."
+                }
+              ],
+              "role": "CONTENT_ROLE_USER",
+              "senderName": "User"
+            },
+            {
+              "parts": [
+                {
+                  "text": "<think>\nWe are given an HTML fragment: <img src=\"hero.jpg\">\nThe issue: The image does not have an alt attribute.\nWhy is this a problem? Without an alt attribute, the image has no text alternative. This is a problem for users who cannot see the image (e.g., screen reader users) and in situations where the image fails to load.\n\nWhich WCAG criterion does this violate?\nWCAG 2.2 Success Criterion 1.1.1 (Non-text Content) requires that all non-text content that is presented to the user has a text alternative that serves the equivalent purpose.\n\nThe criterion states:\n\"All non-text content that is presented to the user has a text alternative that serves the equivalent purpose, except for the situations listed below.\"\n\nIn this case, the image is non-text content and lacks an alt attribute. Therefore, it fails SC 1.1.1.\n\nNote: The exception situations in 1.1.1 include controls, input, time-based media, test, sensory, CAPTCHA, decoration, etc. However, without any context, we cannot assume the image is purely decorative. Even if it were decorative, best practice is to use an empty alt attribute (alt=\"\") to indicate that the image should be ignored by assistive technology. Since the alt attribute is missing entirely, it is a failure.\n\nTherefore, the answer is 1.1.1.\n\nAnswer: 1.1.1\n</think>\nThe HTML fragment `<img src=\"hero.jpg\">` violates **WCAG 2.2 Success Criterion 1.1.1 (Non-text Content)** because:\n- The image lacks an `alt` attribute, which fails to provide a text alternative for non-text content.\n- Without `alt`, screen readers announce the image filename or a generic placeholder, which does not convey equivalent information to users who cannot see the image.\n- This directly contradicts SC 1.1.1, which requires text alternatives for non-text content unless the image is decorative (in which case `alt=\"\"` must still be used).\n\n**Answer:** 1.1.1"
+                }
+              ],
+              "role": "CONTENT_ROLE_ASSISTANT",
+              "senderName": "deepseek-ai/deepseek-r1-0528"
+            }
+          ],
+          "metrics": {
+            "inputTokens": 79,
+            "outputTokens": 436,
+            "inputTokensCostNanodollars": "106650",
+            "outputTokensCostNanodollars": "2354400",
+            "totalBackendLatencyMs": "2563"
+          },
+          "id": "img-no-alt-46226a31-req-1"
+        }
+      ],
+      "metrics": {
+        "inputTokens": 79,
+        "outputTokens": 436,
+        "inputTokensCostNanodollars": "106650",
+        "outputTokensCostNanodollars": "2354400",
+        "totalBackendLatencyMs": "2563"
+      },
+      "modelVersionSlug": "model_version_slug for conversation is DEPRECATED"
+    },
+    {
+      "id": "input-no-label-a619ad01",
+      "requests": [
+        {
+          "contents": [
+            {
+              "parts": [
+                {
+                  "text": "You are auditing a French public website for RGAA 4.1 / WCAG 2.2 compliance.\nHTML fragment:\n<input type=\"text\" id=\"q\" placeholder=\"Rechercher\">\n\nWhich single WCAG 2.2 success criterion does this fragment most directly violate? Answer with the criterion number only (e.g. 1.1.1), or NONE if it is compliant."
+                }
+              ],
+              "role": "CONTENT_ROLE_USER",
+              "senderName": "User"
+            },
+            {
+              "parts": [
+                {
+                  "text": "<think>\nWe are given an HTML fragment: <input type=\"text\" id=\"q\" placeholder=\"Rechercher\">\n The issue: The placeholder attribute is used to provide a hint for the input field. However, the RGAA (French General Accessibility Guidelines) and WCAG 2.2 require that form inputs have a visible label.\n\n Specifically, the placeholder attribute is not a sufficient replacement for a label because:\n   - Placeholder text often has low contrast (by default in many browsers, it's a light gray) and may not meet contrast requirements.\n   - The placeholder text disappears when the user starts typing, which can cause the user to forget what the field is for.\n   - Screen readers may not consistently announce the placeholder text as the label, leading to accessibility issues.\n\n WCAG 2.2 Success Criterion 3.3.2 Labels or Instructions (Level A) requires that labels or instructions are provided when content requires user input. This includes form controls.\n\n Additionally, WCAG 2.2 Success Criterion 1.3.1 Info and Relationships (Level A) requires that information, structure, and relationships conveyed through presentation can be programmatically determined or are available in text. This includes ensuring that form inputs have labels that are programmatically associated.\n\n However, the most direct violation in this case is the lack of a programmatically associated label. The placeholder alone does not suffice as a label.\n\n But note: The question is asking for a single WCAG 2.2 success criterion. Let's check the criteria:\n\n  - 1.1.1 Non-text Content: Not directly, because the input is a text input and the placeholder is text, but the issue is not about non-text.\n  - 1.3.1 Info and Relationships: This could be violated because the input does not have an associated label that defines its purpose. The placeholder is not a sufficient programmatic label.\n  - 1.4.3 Contrast (Minimum): The placeholder text might not meet contrast requirements, but we don't know the actual styles. However, the problem is primarily the lack of a label, not necessarily contrast (unless the placeholder is the only label and it doesn't contrast). But note: the question is about the fragment as given, without styles. The fragment does not specify any style, so we cannot assume contrast issues. Therefore, the primary issue is the missing label.\n  - 3.3.2 Labels or Instructions: This criterion states: \"Labels or instructions are provided when content requires user input.\" This input has a placeholder, which is an instruction? But note the definition of label: \"text or other component with a text alternative that is presented to a user to identify a component within Web content.\" The placeholder is not considered a label because it doesn't persist and isn't programmatically exposed as a label.\n\n The RGAA 4.1 (which is based on WCAG 2.1, but we are asked for WCAG 2.2) has a criterion 11.2.1 which corresponds to WCAG 2.2 3.3.2. However, note that the HTML fragment does not have a visible label other than the placeholder.\n\n The WCAG 2.2 Success Criterion 3.3.2 is about \"Labels or Instructions\", and it requires that a label is provided. The placeholder is an instruction? But the criterion says \"labels or instructions\", so why isn't the placeholder sufficient? \n\n However, the WCAG technique H44: Using label elements to associate text labels with form controls states: \"The placeholder attribute is not a sufficient replacement for the label element.\"\n\n Also, the Understanding document for 3.3.2 says: \"The intent of this Success Criterion is to have form inputs be accompanied by labels that make them accessible. ... The placeholder attribute is not considered an acceptable replacement for a label because it disappears when the user enters text.\"\n\n Therefore, the fragment violates WCAG 2.2 Success Criterion 3.3.2 because the input field does not have a persistent visible label (or an associated label that is programmatically determined).\n\n However, note that the placeholder text is in French: \"Rechercher\" meaning \"Search\". So it does provide a hint, but it's not sufficient.\n\n But wait: there's also Success Criterion 4.1.2 Name, Role, Value? That criterion requires that for user interface components, the name and role can be programmatically determined. The input has a role of \"textbox\" (implied by type=\"text\") but it doesn't have a programmatically determinable name. The placeholder is not used as the accessible name by default. So this could be a violation of 4.1.2.\n\n However, let's look at the WCAG 2.2 Success Criteria:\n\n  3.3.2 Labels or Instructions: Requires labels or instructions to be provided. The placeholder is an instruction but it is not a persistent label. The criterion does not require the label to be programmatically associated? Actually, it does require that the label is provided. The understanding document clarifies that the label must be programmatically associated? Not exactly, but 1.3.1 requires programmatic association? \n\n Actually, the two criteria are intertwined. But note:\n\n  1.3.1: \"Information, structure, and relationships conveyed through presentation can be programmatically determined or are available in text.\" The relationship between the label and the input is a relationship that must be programmatically determined.\n\n  How is the relationship determined? By using a <label> element with a for attribute pointing to the input id, or by having the input inside the label, or by using aria-labelledby, etc.\n\n Since the placeholder is not used as the accessible name (unless explicitly set via ARIA, but here it's not), the input does not have an accessible name. Therefore, it violates 4.1.2 Name, Role, Value.\n\n However, the WCAG 2.2 Quick Reference for 3.3.2 says: \n   \"How to meet 3.3.2: Provide labels to identify all form controls ...\"\n\n   And the techniques for 3.3.2 include H44: Using label elements to associate text labels with form controls.\n\n But note: the placeholder is an attribute that provides a hint, but it is not a label. Therefore, the input does not have a label.\n\n Also, 4.1.2 requires that the name (the accessible name) is programmatically determinable. Without a label, the input does not have an accessible name. So it violates 4.1.2 as well.\n\n However, the question asks for the single criterion most directly violated. Which one is more direct?\n\n The RGAA 4.1 (French guidelines) have:\n\n   Crit\u00e8re 11.2.1: Chaque \u00e9tiquette associ\u00e9e \u00e0 un champ de formulaire est-elle pertinente ?\n\n   And also:\n\n   Crit\u00e8re 11.1.1: Chaque champ de formulaire a-t-il une \u00e9tiquette ?\n\n   The RGAA 11.1.1 corresponds to WCAG 3.3.2? Actually, RGAA 11.1 is about form fields having labels. Specifically, RGAA 11.1.1 requires that each form field has a label.\n\n But note: the WCAG Success Criterion that is often cited for missing labels is 3.3.2. However, the failure of having an input without a label is also a failure of 4.1.2 because the input does not have a programmatically determinable name.\n\n After reviewing the WCAG 2.2:\n\n   3.3.2 Labels or Instructions (Level A): \n        \"Labels or instructions are provided when content requires user input.\"\n\n   4.1.2 Name, Role, Value (Level A):\n        \"For all user interface components (including but not limited to: form elements, links, and components generated by scripts), the name and role can be programmatically determined; states, properties, and values that can be set by the user can be programmatically set; and notification of changes to these items is available to user agents, including assistive technologies.\"\n\n The placeholder does not provide a programmatically determinable name. Therefore, the input fails 4.1.2.\n\n However, let's see what the WCAG Working Group says about placeholders:\n\n    In the Understanding document of 4.1.2, there is an example of failure: \"The accessible name is missing for a form control.\"\n\n    Also, the Understanding document of 3.3.2 states: \"The placeholder attribute is not considered an acceptable replacement for the label element.\"\n\n    Therefore, the fragment fails both 3.3.2 and 4.1.2.\n\n But note: the question asks for a single criterion. Which one is most direct?\n\n    The absence of a label (violating 3.3.2) leads to the lack of an accessible name (violating 4.1.2). However, 3.3.2 is about providing the label, and 4.1.2 is about the programmatic determination of the name.\n\n    Since the placeholder is provided, it might be argued that a label is provided (though insufficiently) so the violation is more about the programmatic determination? \n\n    However, the placeholder is not a label. So 3.3.2 is violated because there is no label.\n\n    Additionally, 4.1.2 is violated because there is no accessible name.\n\n    But note: the placeholder text is exposed by browsers as the accessible name? Let me check:\n\n      According to the HTML Accessibility API Mappings (HTML-AAM), the accessible name for an input[type=text] is computed from:\n        - aria-labelledby\n        - aria-label\n        - the label element (referencing the input by id or containing the input)\n        - the title attribute\n        - the placeholder attribute? \n\n      Actually, the HTML-AAM does not include the placeholder in the accessible name computation. However, some screen readers do announce the placeholder as if it were a label, but this is inconsistent and not reliable.\n\n      Therefore, the placeholder does not provide an accessible name.\n\n    So the input has no accessible name -> fails 4.1.2.\n\n    And it also fails 3.3.2 because it doesn't have a label.\n\n    How do we decide?\n\n    The RGAA 4.1 checklist (referencing WCAG 2.1) has:\n\n      Crit\u00e8re 11.1.1: Chaque champ de formulaire a-t-il une \u00e9tiquette ?\n        Corresponding WCAG: 4.1.2 [because RGAA 11.1 is about programmatic name?]\n\n      But wait: the RGAA 11.1.1 test is about the presence of an associated label (using <label>, title, aria-label, etc.). The RGAA 11.1.1 test says: \"Does each form field that has a label meet the following conditions? ... The label is associated with the form field via a label tag with an attribute for, or the form field has an attribute title, or the form field is embedded in a label tag?\"\n\n      So RGAA 11.1.1 is about the programmatic association and therefore corresponds to WCAG 4.1.2?\n\n    However, the RGAA 11.1.1 is actually mapped to multiple WCAG criteria:\n\n        WCAG 2.1: 1.3.1, 3.3.2, 4.1.2\n\n    Since RGAA is based on WCAG 2.1, and we are asked for WCAG 2.2, the criteria are similar.\n\n    But note: the question is about WCAG 2.2.\n\n    After cross-referencing:\n\n        Failure to provide a label (so the user doesn't know what to enter) is 3.3.2.\n\n        Failure to have a programmatically determinable name (so assistive technology doesn't know what the field is) is 4.1.2.\n\n    However, the WCAG 2.2 Quick Reference lists 3.3.2 as the criterion for \"Labels or Instructions\". And the placeholder is not a sufficient label. Therefore, the fragment violates 3.3.2.\n\n    Also, note that the placeholder text might be considered an instruction? But the criterion requires that labels or instructions are provided. The problem is that the placeholder disappears, so it does not serve as a persistent instruction. Therefore, it does not meet 3.3.2.\n\n    Moreover, 3.3.2 has a note: \"The requirement for labels or instructions also applies to controls in Web content that specify data format.\" So it's about providing the instruction that doesn't disappear.\n\n    Therefore, I think the most direct violation is 3.3.2.\n\n    However, let's see what the Web Accessibility Tutorials say:\n\n        https://www.w3.org/WAI/tutorials/forms/labels/\n\n        \"Labels need to describe the purpose of the form control. This section of the tutorial describes how to provide labels that are properly associated with form controls. ... The <label> element is used to associate a text label with a form control. The label is used to tell users the value that should be entered in the associated input field.\"\n\n        \"The placeholder attribute is not a substitute for the <label> element.\"\n\n    So the absence of a <label> (or equivalent) is a failure of providing a label -> 3.3.2.\n\n    But note: the placeholder is provided, but it's not sufficient.\n\n    Therefore, the answer should be 3.3.2.\n\n    However, let's check the WCAG 2.2 Success Criterion 3.3.2:\n\n        \"Labels or instructions are provided when content requires user input.\"\n\n        The input requires user input. The placeholder provides an instruction? But the instruction disappears. The criterion does not explicitly say the instruction must be persistent? However, the understanding document does:\n\n        \"The intent of this Success Criterion is to have form inputs be accompanied by labels that make them accessible. ... The placeholder attribute is not considered an acceptable replacement for a label because it disappears when the user enters text.\"\n\n    So it's clear: 3.3.2.\n\n    Therefore, I choose 3.3.2.\n\n    But note: the fragment doesn't have any other label. So it fails 3.3.2.\n\n    However, let's consider that the input might be part of a form where the label is provided by other means? We are only given a fragment. We must consider the fragment in isolation.\n\n    Since the fragment does not include a label, and the placeholder is insufficient, it violates 3.3.2.\n\n    Therefore, the answer is 3.3.2.\n\n    But wait: what about the contrast issue? The placeholder text might not have sufficient contrast? However, the fragment does not specify any styles. The default placeholder style in some browsers may not meet contrast requirements. But we don't know. So we cannot assume contrast failure. The problem we are certain about is the missing label.\n\n    Thus, the most direct violation is 3.3.2.\n\n    However, I have seen arguments that the placeholder attribute does not provide an accessible name and thus violates 4.1.2. And 4.1.2 is also a Level A criterion.\n\n    In fact, the WCAG 2.2 includes a failure for 4.1.2: F68: Failure of Success Criterion 4.1.2 due to a user interface control not having a programmatically determined name.\n\n    So which one?\n\n    The WCAG Working Group's Accessibility Support for placeholders:\n\n        https://www.w3.org/WAI/WCAG21/Techniques/html/H44\n\n        \"The placeholder attribute is not a sufficient replacement for the label element because it is not permanently visible, and screen readers may not treat it as a label.\"\n\n    This technique (H44) is listed under 3.3.2 and 4.1.2? Actually, it is listed under multiple criteria including 1.3.1, 3.3.2, and 4.1.2.\n\n    But note: the failure is explicitly listed under 4.1.2 as F68.\n\n    And the Understanding document for 4.1.2 includes:\n\n        \"For example, an input field has no programmatically determinable name when the title attribute is missing, the label element is missing or not correctly associated to the input, and there is no aria-label or aria-labelledby attribute.\"\n\n    Since the placeholder is not one of the ways to provide an accessible name, the input fails 4.1.2.\n\n    And the Understanding document for 3.3.2 includes:\n\n        \"The placeholder attribute is not considered an acceptable replacement for a label because it disappears when the user enters text.\"\n\n    So both are violated.\n\n    However, the question asks for the single criterion most directly violated.\n\n    Given that the fragment does not have any associated label (programmatically or otherwise), and the placeholder is the only hint, the problem is that the input lacks an accessible name (4.1.2) and also lacks a persistent label (3.3.2). But the core issue is that the input does not have an accessible name that is programmatically determinable? \n\n    Actually, the placeholder does provide a visible label initially, but it's not programmatically determinable and it disappears. So 3.3.2 is violated because the label (or instruction) is not persistent? But note: the criterion doesn't require persistence? It says \"Labels or instructions are provided\". They are provided initially? But the understanding document clarifies that the placeholder is not enough because it disappears.\n\n    However, the WCAG 2.2 document itself does not explicitly say in 3.3.2 that the label must be persistent. It only says \"provided\". Therefore, the interpretation that the placeholder is provided might lead to passing 3.3.2? But that would be incorrect because the understanding document explicitly says it's not enough.\n\n    Given the confusion, I think the most conservative answer is 4.1.2, because the input does not have a programmatically determinable name. And that is a clear violation regardless of the placeholder's persistence.\n\n    But note: the placeholder is in the fragment. Does the browser expose the placeholder as the accessible name? \n\n    According to the HTML specification, the placeholder is not part of the accessible name. Therefore, the accessible name is empty -> violates 4.1.2.\n\n    So I think 4.1.2 is the more technical criterion that is violated.\n\n    However, let me check with the ARIA in HTML specification: \n        https://www.w3.org/TR/html-aria/#el-input-text\n\n        For <input type=\"text\">, the accessible name can be derived from: \n          - aria-labelledby\n          - aria-label\n          - title attribute\n          - The label element\n\n        Placeholder is not listed.\n\n    Therefore, the input has no accessible name -> fails 4.1.2.\n\n    And note: 4.1.2 is a Level A criterion and is fundamental for assistive technology.\n\n    So my final answer is 4.1.2.\n\n    But wait: the RGAA 4.1 (which the question mentions) has a test 11.1.1 that corresponds to WCAG 4.1.2? \n\n        RGAA 11.1.1: \n          \"Chaque champ de formulaire a-t-il une \u00e9tiquette ?\"\n          Test 11.1.1: For each form field, does the associated label describe the exact nature of the expected data?\n\n        And the RGAA rule says: \n          The programmatic association between a form field and its label must be verified.\n\n        So RGAA 11.1.1 is about programmatic association -> WCAG 4.1.2.\n\n    Therefore, the answer is 4.1.2.\n\n    However, the question says \"RGAA 4.1 / WCAG 2.2\", and RGAA 4.1 is aligned with WCAG 2.1. The WCAG 2.2 does not change 4.1.2.\n\n    Thus, I will go with 4.1.2.\n\n    But note: the fragment does not have a programmatically associated label, so it fails 4.1.2.\n\n    Final answer: 4.1.2\n\n    However, I recall that in the past, the W3C validators also flag missing labels as 3.3.2? \n\n    But let's look at the WCAG 2.2 success criteria numbering:\n\n        3.3.2 is Labels or Instructions\n        4.1.2 is Name, Role, Value\n\n    And the input fails both? \n\n    Since the question asks for a single criterion, and the fragment has two issues: \n        a) It doesn't have a persistent label (for sighted users) -> 3.3.2\n        b) It doesn't have an accessible name (for assistive technology) -> 4.1.2\n\n    Which one is more direct? \n\n    The fragment uses a placeholder which is not sufficient for either.\n\n    However, the success criterion 3.3.2 is about the user being able to understand what input is expected. The placeholder does provide that initially, but it disappears. So it fails 3.3.2.\n\n    The criterion 4.1.2 is about the programmatic exposure. The placeholder is not exposed programmatically so it fails 4.1.2.\n\n    But note: the question says \"most directly\". The fragment is missing an accessible name (programmatically determinable) -> 4.1.2.\n\n    And without an accessible name, screen reader users may not know what the field is for.\n\n    Therefore, I think 4.1.2 is the most direct criterion.\n\n    But let me see what the WCAG Quick Reference says:\n\n        https://www.w3.org/WAI/WCAG22/quickref/?showtechniques=121%2C131#qr-input-assistance\n\n        For 3.3.2, it says: \"Labels or instructions are provided when content requires user input.\"\n\n        And for 4.1.2, it says: \"For all user interface components, the name and role can be programmatically determined ...\"\n\n    The input field is a user interface component -> 4.1.2.\n\n    And the name is not programmatically determined -> fails 4.1.2.\n\n    So I think the answer is 4.1.2.\n\n    However, after further research, I found that the WCAG 2.2 includes a new criterion 2.5.3: Label in Name (Level A). But that is about the accessible name containing the visible label text, which is not the issue here.\n\n    Conclusion: The fragment violates 4.1.2 because the input has no programmatically determined name.\n\n    Therefore, the answer is 4.1.2.\n</think>\nThe provided HTML fragment uses a `placeholder` attribute for an input field without a corresponding label. According to WCAG 2.2, this violates **Success Criterion 4.1.2: Name, Role, Value** (Level A). Here's why:\n\n- **4.1.2** requires that user interface components (like form inputs) have a programmatically determinable name (accessible name). The `placeholder` attribute does not serve as an accessible name for assistive technologies (e.g., screen readers). An explicit label (via `<label>`, `aria-label`, or `aria-labelledby`) is necessary to meet this criterion.\n- While other criteria like 3.3.2 (Labels or Instructions) or 1.3.1 (Info and Relationships) are also relevant, **4.1.2** is the most direct violation because the absence of an accessible name prevents programmatic determination of the input's purpose.\n\nThus, the answer is **4.1.2**."
+                }
+              ],
+              "role": "CONTENT_ROLE_ASSISTANT",
+              "senderName": "deepseek-ai/deepseek-r1-0528"
+            }
+          ],
+          "metrics": {
+            "inputTokens": 88,
+            "outputTokens": 5067,
+            "inputTokensCostNanodollars": "118800",
+            "outputTokensCostNanodollars": "27361800",
+            "totalBackendLatencyMs": "31459"
+          },
+          "id": "input-no-label-a619ad01-req-1"
+        }
+      ],
+      "metrics": {
+        "inputTokens": 88,
+        "outputTokens": 5067,
+        "inputTokensCostNanodollars": "118800",
+        "outputTokensCostNanodollars": "27361800",
+        "totalBackendLatencyMs": "31459"
+      },
+      "modelVersionSlug": "model_version_slug for conversation is DEPRECATED"
+    },
+    {
+      "id": "low-contrast-344da8eb",
+      "requests": [
+        {
+          "contents": [
+            {
+              "parts": [
+                {
+                  "text": "You are auditing a French public website for RGAA 4.1 / WCAG 2.2 compliance.\nHTML fragment:\n<p style=\"color:#999;background:#fff\">Mentions l\u00e9gales</p>\n\nWhich single WCAG 2.2 success criterion does this fragment most directly violate? Answer with the criterion number only (e.g. 1.1.1), or NONE if it is compliant."
+                }
+              ],
+              "role": "CONTENT_ROLE_USER",
+              "senderName": "User"
+            },
+            {
+              "parts": [
+                {
+                  "text": "<think>\nWe are given an HTML fragment: \n   <p style=\"color:#999;background:#fff\">Mentions l\u00e9gales</p>\n\nWe are to check against RGAA 4.1 which is based on WCAG 2.2.\n\nThe issue: \n- The text color is `#999` (a light gray) and the background is `#fff` (white).\n- We need to check if the contrast ratio between the text and the background meets the WCAG requirements.\n\nCalculation of contrast ratio:\n- Color #999 is RGB(153, 153, 153) -> each component is 153/255 = 0.6 -> relative luminance: \n  Formula for relative luminance (for sRGB):\n    For each component (R, G, B) (normalized to 0-1):\n      if value <= 0.03928 then value = value / 12.92\n      else value = ((value + 0.055) / 1.055) ^ 2.4\n\n  Let's compute for one component: 153/255 = 0.6 \n  Since 0.6 > 0.03928, we do: \n      = (0.6 + 0.055) / 1.055 = 0.655 / 1.055 \u2248 0.621\n      Then raise to the power of 2.4: 0.621^2.4 \u2248 ?\n\nBut note: we can use a standard way. The contrast ratio formula is:\n  Contrast ratio = (L1 + 0.05) / (L2 + 0.05)\n  where L1 is the relative luminance of the lighter color and L2 is the relative luminance of the darker color.\n\nIn this case:\n  Background: white (#FFFFFF) -> relative luminance = 1.0.\n  Text: gray (#999999) -> relative luminance: \n      R = G = B = 153/255 = 0.6\n      For each component: \n          R = (0.6 + 0.055)/1.055 = 0.655 / 1.055 \u2248 0.621\n          Then R_linear = (0.621)^2.4 \u2248 0.621^2.4\n\nWe can use an online calculator or do the math:\n\nAlternatively, we can use known values:\n  The relative luminance of #999 is approximately 0.60 (but note: the formula isn't linear).\n\nActually, let me compute:\n  Formula: \n      R_srgb = 153/255 = 0.6\n      R = R_srgb <= 0.03928 ? R_srgb/12.92 : ((R_srgb+0.055)/1.055)^2.4\n      Same for G and B.\n\n  Then L = 0.2126 * R_linear + 0.7152 * G_linear + 0.0722 * B_linear\n\nBut since it's gray, R_linear = G_linear = B_linear.\n\nCompute R_linear:\n  R_srgb = 0.6\n  R_linear = ((0.6 + 0.055)/1.055)^2.4 \n            = (0.655/1.055)^2.4 \n            \u2248 (0.621)^2.4\n\nWe can calculate:\n  0.621^2 = 0.385641\n  0.621^4 = (0.385641)^2 \u2248 0.14874\n  0.621^2.4 = 0.621^(2 + 0.4) = 0.621^2 * 0.621^0.4\n\nAlternatively, use an approximation or known value. According to common contrast checkers, the contrast ratio between #999 and #fff is:\n\n  White: #FFFFFF -> luminance = 1\n  Gray: #999999 -> luminance = ?\n\nUsing a standard tool, the relative luminance of #999 is 0.3608.\n\nSo:\n  Contrast ratio = (1.0 + 0.05) / (0.3608 + 0.05) = 1.05 / 0.4108 \u2248 2.56\n\nThe WCAG 2.2 success criteria for text require:\n\n  - Level AA: at least 4.5:1 for normal text (if the text is 18pt or 14pt bold, then 3:1)\n  - Level A: 3:1 for large text? Actually, Level A requires the same as AA for text? \n\nBut note the criteria:\n\n  1.4.3 Contrast (Minimum): Level AA\n      Text and images of text have a contrast ratio of at least 4.5:1, except for the following:\n        Large Text: Text that is at least 18 point or 14 point bold has a contrast ratio of at least 3:1.\n        Incidental: Text that is part of an inactive user interface component, pure decoration, etc.\n\n  1.4.6 Contrast (Enhanced): Level AAA\n      Requires 7:1 for normal text and 4.5:1 for large text.\n\nBut note: the fragment is a paragraph tag. Without knowing the font size and weight, we assume normal text.\n\nThe computed contrast ratio is about 2.56:1 which is below 4.5:1.\n\nTherefore, it violates the minimum contrast requirement.\n\nHowever, note that the text is \"Mentions l\u00e9gales\" (legal notice) which might be considered as a link or important text? But it's inside a paragraph and no context. We are to judge by the fragment.\n\nBut the fragment is a paragraph with low contrast.\n\nTherefore, it violates WCAG 2.2 Success Criterion 1.4.3 (Contrast (Minimum)).\n\nBut wait: what if the text is large? Without the font size, we cannot know. However, the HTML fragment does not specify a font size. It only has color and background.\n\nIn the absence of any font size information, we assume it is normal text. Also, note that the RGAA guidelines require that we check the contrast without relying on the user agent's default? But the fragment doesn't set font size, so it will be the default.\n\nTypical default paragraph font size is 16px (medium) which is less than 18pt. Note: 18pt is about 24px (since 1pt=1.333px). So 16px is about 12pt? Therefore, it is not large.\n\nSo the text requires at least 4.5:1.\n\nSince the contrast ratio is below 4.5:1, it fails.\n\nThus, the criterion violated is 1.4.3.\n\nBut note: RGAA 4.1 is aligned with WCAG 2.1? Actually, RGAA 4.1 claims to be based on WCAG 2.1 but the question says WCAG 2.2? However, the contrast criteria in WCAG 2.2 are the same as in 2.1 for this issue.\n\nSo the answer should be 1.4.3.\n\nBut wait: WCAG 2.2 has a new criterion for focus visibility? Not relevant here.\n\nSo the violation is of criterion 1.4.3.\n\nHowever, let me double-check: is there any possibility it might be considered decorative? The text is \"Mentions l\u00e9gales\", which is important information (legal notice). So it must be readable.\n\nTherefore, the answer is 1.4.3.\n\nBut note: the question asks for the single WCAG 2.2 success criterion. So we output the number.\n\nAnswer: 1.4.3\n</think>\nThe HTML fragment uses a text color of `#999` (light gray) on a background of `#fff` (white). The contrast ratio between these colors is approximately **2.54:1**, which is below the WCAG 2.2 minimum requirement of **4.5:1** for normal-sized text (assuming default font size and weight). This violates **Success Criterion 1.4.3 Contrast (Minimum)** (Level AA), as the text (\"Mentions l\u00e9gales\") appears non-decorative and likely requires sufficient readability.\n\n**Answer: 1.4.3**"
+                }
+              ],
+              "role": "CONTENT_ROLE_ASSISTANT",
+              "senderName": "deepseek-ai/deepseek-r1-0528"
+            }
+          ],
+          "metrics": {
+            "inputTokens": 92,
+            "outputTokens": 1758,
+            "inputTokensCostNanodollars": "124200",
+            "outputTokensCostNanodollars": "9493200",
+            "totalBackendLatencyMs": "10286"
+          },
+          "id": "low-contrast-344da8eb-req-1"
+        }
+      ],
+      "metrics": {
+        "inputTokens": 92,
+        "outputTokens": 1758,
+        "inputTokensCostNanodollars": "124200",
+        "outputTokensCostNanodollars": "9493200",
+        "totalBackendLatencyMs": "10286"
+      },
+      "modelVersionSlug": "model_version_slug for conversation is DEPRECATED"
+    },
+    {
+      "id": "div-button-ae4abe6c",
+      "requests": [
+        {
+          "contents": [
+            {
+              "parts": [
+                {
+                  "text": "You are auditing a French public website for RGAA 4.1 / WCAG 2.2 compliance.\nHTML fragment:\n<div onclick=\"go()\">Valider</div>\n\nWhich single WCAG 2.2 success criterion does this fragment most directly violate? Answer with the criterion number only (e.g. 1.1.1), or NONE if it is compliant."
+                }
+              ],
+              "role": "CONTENT_ROLE_USER",
+              "senderName": "User"
+            },
+            {
+              "parts": [
+                {
+                  "text": "<think>\nWe are given an HTML fragment: `<div onclick=\"go()\">Valider</div>`\n We are to determine which WCAG 2.2 success criterion this fragment violates, if any.\n\n Observation:\n The element is a `div` that has an `onclick` handler. The text content is \"Valider\", which translates to \"Submit\" in English.\n\n Potential issues:\n 1. The element is meant to act as a button (since it triggers an action when clicked) but it is not a button element.\n    - This might cause issues with accessibility because a `div` does not have the inherent role of a button, and without proper ARIA roles, screen readers might not recognize it as a button.\n 2. The element is only clickable via mouse (or a pointing device) because it uses `onclick`. However, `onclick` also works with the keyboard if the element is made focusable (e.g., with `tabindex`). But in this fragment, the `div` does not have a `tabindex` attribute, so it cannot be focused by keyboard users. Therefore, keyboard users cannot activate this element.\n\n Let's analyze the relevant WCAG criteria:\n\n - **Success Criterion 2.1.1 Keyboard (Level A)**: All functionality of the content is operable through a keyboard interface without requiring specific timings for individual keystrokes, except where the underlying function requires input that depends on the path of the user's movement and not just the endpoints.\n   - In this case, the `div` is not keyboard operable because it is not focusable (no `tabindex`). Therefore, keyboard users cannot activate the \"Valider\" function.\n\n - **Success Criterion 4.1.2 Name, Role, Value (Level A)**: For all user interface components (including form elements, links, and components generated by scripts), the name and role can be programmatically determined; states, properties, and values that can be set by the user can be programmatically set; and notification of changes to these items is available to user agents, including assistive technologies.\n   - The `div` does not have a role assigned (like `role=\"button\"`) so its role is not conveyed to assistive technologies. Also, it doesn't have an accessible name beyond the text content (which might be acceptable if the text is sufficient). But the main issue here is the missing role.\n\n However, note that the question asks for the **single** criterion that it **most directly** violates.\n\n Considering the above:\n - The keyboard operability issue (2.1.1) is critical because without focus, the button is completely unusable by keyboard.\n - The lack of role (4.1.2) is also important, but note that even with a role, if it's not focusable and keyboard operable, it would still violate 2.1.1.\n\n But note: if we add `tabindex=\"0\"` and `role=\"button\"`, then it becomes both focusable and has the correct role. Then the issue with 4.1.2 would be resolved and the keyboard issue would be resolved. However, without both, we have two issues.\n\n However, the most direct violation in this case is likely **2.1.1** because:\n - The element is not keyboard accessible at all. Without keyboard access, the functionality is completely unavailable to keyboard users.\n\n But wait, let's check the specifications for `onclick`:\n - The `onclick` event handler is triggered by both mouse and keyboard (when the element is focused and the Enter key is pressed). However, the `div` is not natively focusable. Therefore, without a `tabindex`, it cannot be focused by the keyboard, so the keyboard user cannot trigger the event.\n\n Hence, the primary issue is the lack of keyboard operability.\n\n However, note that WCAG 2.1.1 is about keyboard access. The element must be focusable and operable via the keyboard.\n\n Therefore, the answer should be **2.1.1**.\n\n But let's also consider if there are any other criteria:\n\n - **Success Criterion 3.2.2 On Input**: Changing the setting of any user interface component does not automatically cause a change of context unless the user has been advised of the behavior before using the component.\n   - This is not applicable because we don't see any context change in the code snippet, just a function call `go()`.\n\n - **Success Criterion 4.1.1 Parsing**: This is about well-formed markup, which is satisfied.\n\n After consideration, the most direct violation is **2.1.1**.\n\n However, note that RGAA (which is the French implementation of WCAG) also emphasizes the same criteria.\n\n Therefore, the answer is: **2.1.1**\n\n But wait, let's double-check: could it be 4.1.2 because the role is missing? \n - Without a role, assistive technologies might not know it's a button, but the keyboard issue is more fundamental because the user can't even interact with it. However, WCAG 4.1.2 requires that the role be set. So it violates both? \n\n But the question asks for the **single** criterion it most directly violates. \n\n In the context of the given code, the lack of keyboard access is the most critical and fundamental issue. Without keyboard access, the role becomes irrelevant because the user cannot even reach the element. However, note that WCAG 2.1.1 requires that the functionality be operable by keyboard. This element is not operable by keyboard because it is not focusable. Therefore, 2.1.1 is violated.\n\n But note: if the element were a `<button>` or an `<input type=\"button\">`, it would be natively focusable and have the button role. Therefore, using a non-semantic element without the necessary attributes causes both issues.\n\n However, the WCAG working group provides a technique for creating buttons from non-button elements: \n - [G202: Ensuring keyboard control for all functionality](https://www.w3.org/WAI/WCAG22/Techniques/general/G202) (which relates to 2.1.1)\n - [ARIA4: Using a WAI-ARIA role to expose the role of a user interface component](https://www.w3.org/WAI/WCAG22/Techniques/aria/ARIA4) (which relates to 4.1.2)\n\n So both are important, but the immediate barrier for keyboard users is the lack of keyboard operability.\n\n However, let's look at the conformance requirements. The WCAG 2.2 document states for 2.1.1:\n   \"All functionality of the content is operable through a keyboard interface...\"\n\n This functionality (submitting via the \"Valider\" button) is not operable via keyboard because the div is not in the tab order.\n\n Therefore, the fragment violates 2.1.1.\n\n But note: if the page had another way to submit (like by pressing the Enter key in a form) then this specific button might not be the only way. However, without additional context, we must assume this is the only way to trigger the \"go()\" function.\n\n Conclusion: The fragment violates **2.1.1**.\n\n However, I recall that in WCAG, if an element is only mouse-clickable and not keyboard operable, that is a 2.1.1 violation.\n\n Therefore, the answer is **2.1.1**.\n\n But wait: there is also a technique that says that if an element has an onclick handler, it should be focusable. So the violation is indeed 2.1.1.\n\n Final Answer: 2.1.1\n</think>\nThe provided HTML fragment `<div onclick=\"go()\">Valider</div>` violates **Success Criterion 2.1.1 (Keyboard)**. \n\n**Reasoning**:\n- The `<div>` acts as a button (triggering `go()` on activation) but lacks keyboard accessibility.\n- It has no `tabindex` attribute, making it unfocusable via keyboard navigation (Tab key).\n- Keyboard users (e.g., those using screen readers or motor impairments) cannot activate the function, as the element is not operable through keyboard input alone.\n\nThis directly fails WCAG 2.2 SC 2.1.1, which requires all functionality to be operable via a keyboard interface. While the element also fails SC 4.1.2 (due to missing semantic role/state), the keyboard inaccessibility is the primary and most direct violation.\n\n**Answer**: 2.1.1"
+                }
+              ],
+              "role": "CONTENT_ROLE_ASSISTANT",
+              "senderName": "deepseek-ai/deepseek-r1-0528"
+            }
+          ],
+          "metrics": {
+            "inputTokens": 84,
+            "outputTokens": 1796,
+            "inputTokensCostNanodollars": "113400",
+            "outputTokensCostNanodollars": "9698400",
+            "totalBackendLatencyMs": "10860"
+          },
+          "id": "div-button-ae4abe6c-req-1"
+        }
+      ],
+      "metrics": {
+        "inputTokens": 84,
+        "outputTokens": 1796,
+        "inputTokensCostNanodollars": "113400",
+        "outputTokensCostNanodollars": "9698400",
+        "totalBackendLatencyMs": "10860"
+      },
+      "modelVersionSlug": "model_version_slug for conversation is DEPRECATED"
+    },
+    {
+      "id": "no-lang-a354496a",
+      "requests": [
+        {
+          "contents": [
+            {
+              "parts": [
+                {
+                  "text": "You are auditing a French public website for RGAA 4.1 / WCAG 2.2 compliance.\nHTML fragment:\n<html><head><title>Accueil</title></head><body>Bonjour</body></html>\n\nWhich single WCAG 2.2 success criterion does this fragment most directly violate? Answer with the criterion number only (e.g. 1.1.1), or NONE if it is compliant."
+                }
+              ],
+              "role": "CONTENT_ROLE_USER",
+              "senderName": "User"
+            },
+            {
+              "parts": [
+                {
+                  "text": "<think>\nWe are given an HTML fragment: <html><head><title>Accueil</title></head><body>Bonjour</body></html>\n\nThe fragment has:\n- An html tag containing a head and a body.\n- The head contains a title element with the text \"Accueil\".\n- The body contains the text \"Bonjour\".\n\nNow, we are to check against RGAA 4.1 which is the French accessibility guidelines based on WCAG 2.2.\n\nWe must identify if there is a violation of any WCAG 2.2 success criterion.\n\nLooking at the fragment, the page has a title. The title is present and non-empty (\"Accueil\" meaning \"Home\" in French). The body has content in French.\n\nHowever, note that WCAG 2.2 Success Criterion 2.4.2 (Page Titled) requires that web pages have titles that describe the topic or purpose. The title \"Accueil\" is appropriate for a home page.\n\nBut let's check if there's any other criterion that might be violated.\n\nOne thing to note: the language of the document. The text in the body is in French (\"Bonjour\"), but the document does not specify the language.\n\nWCAG 2.2 Success Criterion 3.1.1 (Language of Page) requires that the default human language of each web page can be programmatically determined.\n\nIn HTML, this is typically done by adding a `lang` attribute to the `<html>` element.\n\nIn this fragment, the `<html>` element has no `lang` attribute. Therefore, the language of the page is not programmatically determined.\n\nThus, the fragment violates WCAG 2.2 Success Criterion 3.1.1.\n\nSo the answer should be: 3.1.1\n</think>\nThe HTML fragment lacks a `lang` attribute in the `<html>` element, which is required to programmatically determine the default human language of the page. This violates **WCAG 2.2 Success Criterion 3.1.1 (Language of Page)**. Without the `lang` attribute, assistive technologies may not correctly process the text (e.g., incorrect pronunciation for French content like \"Bonjour\").\n\n**Answer: 3.1.1**"
+                }
+              ],
+              "role": "CONTENT_ROLE_ASSISTANT",
+              "senderName": "deepseek-ai/deepseek-r1-0528"
+            }
+          ],
+          "metrics": {
+            "inputTokens": 95,
+            "outputTokens": 469,
+            "inputTokensCostNanodollars": "128250",
+            "outputTokensCostNanodollars": "2532600",
+            "totalBackendLatencyMs": "3018"
+          },
+          "id": "no-lang-a354496a-req-1"
+        }
+      ],
+      "metrics": {
+        "inputTokens": 95,
+        "outputTokens": 469,
+        "inputTokensCostNanodollars": "128250",
+        "outputTokensCostNanodollars": "2532600",
+        "totalBackendLatencyMs": "3018"
+      },
+      "modelVersionSlug": "model_version_slug for conversation is DEPRECATED"
+    },
+    {
+      "id": "ok-link-4a875d90",
+      "requests": [
+        {
+          "contents": [
+            {
+              "parts": [
+                {
+                  "text": "You are auditing a French public website for RGAA 4.1 / WCAG 2.2 compliance.\nHTML fragment:\n<a href=\"/contact\">Nous contacter</a>\n\nWhich single WCAG 2.2 success criterion does this fragment most directly violate? Answer with the criterion number only (e.g. 1.1.1), or NONE if it is compliant."
+                }
+              ],
+              "role": "CONTENT_ROLE_USER",
+              "senderName": "User"
+            },
+            {
+              "parts": [
+                {
+                  "text": "<think>\nWe are auditing a French public website for RGAA 4.1 / WCAG 2.2 compliance.\n The HTML fragment in question is:\n   <a href=\"/contact\">Nous contacter</a>\n\n We need to determine which single WCAG 2.2 success criterion this fragment most directly violates, or if it is compliant (NONE).\n\n Steps:\n 1. Understand the link: The anchor tag has an href attribute pointing to \"/contact\" and the link text is \"Nous contacter\", which translates to \"Contact us\" in English.\n\n 2. Check for common violations:\n    - Is the link text meaningful? \"Nous contacter\" is meaningful and describes the purpose of the link (it leads to a contact page).\n    - Is there any issue with accessibility? At first glance, the link seems straightforward.\n\n 3. Consider WCAG 2.2 criteria that might be relevant to links:\n    - 1.1.1 Non-text Content: Not applicable because this is a text link.\n    - 1.3.1 Info and Relationships: The link is properly structured, so it shouldn't violate this.\n    - 1.4.1 Use of Color: No color is involved in this fragment alone.\n    - 2.1.1 Keyboard: The link is focusable and operable by keyboard by default.\n    - 2.4.1 Bypass Blocks: Not directly about a single link.\n    - 2.4.4 Link Purpose (In Context): This criterion requires that the purpose of each link can be determined from the link text alone or from the link text together with its programmatically determined link context. The text \"Nous contacter\" is clear and self-explanatory. However, we must check if the context is necessary? In this case, it doesn't seem to require context because \"contact\" is a common page and the text is explicit.\n\n 4. However, note that the RGAA 4.1 (which is the French implementation of WCAG 2.1) and WCAG 2.2 have specific rules about link purpose. But WCAG 2.2 has a criterion 2.4.9 Link Purpose (Link Only) at AAA level, but that is not the one we are concerned with at level A.\n\n 5. The main criterion for links at level A is 2.4.4 Link Purpose (In Context). It states: \"The purpose of each link can be determined from the link text alone or from the link text together with its programmatically determined link context, except where the purpose of the link would be ambiguous to users in general.\"\n\n    In this case, the link text is \"Nous contacter\", which clearly indicates that the link leads to a contact page. Therefore, it meets 2.4.4.\n\n 6. But wait, what about the language? The website is in French and the link text is in French. Since the page is in French, the link text is appropriate. There is no requirement for the link to be in any specific language as long as it matches the language of the page.\n\n 7. Another criterion: 2.4.9 Link Purpose (Link Only) (AAA) requires the purpose to be determined by the link text alone without context. This link text \"Nous contacter\" is sufficient on its own, so it would meet 2.4.9 too. But that is AAA and not required for A or AA.\n\n 8. However, note that the fragment is isolated. Without context, we must assume that the link is presented in a way that the text is clear. But in a real page, if there are multiple links with the same text that go to different destinations, that could be a problem. However, the fragment shows only one link.\n\n 9. Another point: The href is \"/contact\", which is a relative URL. It doesn't tell us the full path, but that doesn't affect accessibility as long as the link text is clear.\n\n 10. Considering RGAA 4.1: RGAA 4.1 is based on WCAG 2.1, but we are told to check for WCAG 2.2. The criteria for links are the same in WCAG 2.1 and 2.2 at level A and AA.\n\n 11. Conclusion: The link appears to be compliant. Therefore, the answer should be NONE.\n\n However, let's double-check: is there a requirement that the link text must be unique? Not at level A. The requirement is that the purpose must be clear. Even if there are multiple \"Contact us\" links on a page, as long as they all go to the same contact page, it is acceptable. If they go to different contact pages (e.g., for different departments) then it would violate 2.4.4 because the context would be necessary to differentiate and the link text alone wouldn't be sufficient. But we don't have the context of the entire page.\n\n Given that we only have one link and no context, we must assume it is used appropriately.\n\n Therefore, the fragment does not violate any WCAG 2.2 success criterion.\n\n Answer: NONE\n</think>\nThe provided HTML fragment `<a href=\"/contact\">Nous contacter</a>` is **compliant** with WCAG 2.2.  \n\n**Explanation**:  \n- The link text \"Nous contacter\" (French for \"Contact us\") clearly describes the destination's purpose (contact page) **without requiring additional context**.  \n- It satisfies **WCAG 2.4.4 Link Purpose (In Context)** (Level A) since the purpose is understandable from the link text alone.  \n- No other WCAG 2.2 criteria (e.g., 1.1.1, 2.4.9) are violated, as the link is text-based, descriptive, and language-appropriate for a French website.  \n\n**Answer**: NONE"
+                }
+              ],
+              "role": "CONTENT_ROLE_ASSISTANT",
+              "senderName": "deepseek-ai/deepseek-r1-0528"
+            }
+          ],
+          "metrics": {
+            "inputTokens": 84,
+            "outputTokens": 1233,
+            "inputTokensCostNanodollars": "113400",
+            "outputTokensCostNanodollars": "6658200",
+            "totalBackendLatencyMs": "7270"
+          },
+          "id": "ok-link-4a875d90-req-1"
+        }
+      ],
+      "metrics": {
+        "inputTokens": 84,
+        "outputTokens": 1233,
+        "inputTokensCostNanodollars": "113400",
+        "outputTokensCostNanodollars": "6658200",
+        "totalBackendLatencyMs": "7270"
+      },
+      "modelVersionSlug": "model_version_slug for conversation is DEPRECATED"
+    }
+  ],
+  "results": [
+    {
+      "type": "AGGREGATED",
+      "numericResult": {
+        "value": 6.0
+      }
+    }
+  ],
+  "assertions": [
+    {
+      "expectation": "img-no-alt: should name one of 1.1.1",
+      "status": "BENCHMARK_TASK_RUN_ASSERTION_STATUS_PASSED",
+      "lineNumber": 29,
+      "definition": "kbench.assertions.assert_true(ok, expectation=f\"{slug}: should name one of {'/'.join(accepted)}\")",
+      "conversationRequestIds": [
+        {
+          "conversationId": "rgaa-a11y-judgement-0bba414c"
+        }
+      ]
+    },
+    {
+      "expectation": "input-no-label: should name one of 1.3.1/3.3.2/4.1.2",
+      "status": "BENCHMARK_TASK_RUN_ASSERTION_STATUS_PASSED",
+      "lineNumber": 29,
+      "definition": "kbench.assertions.assert_true(ok, expectation=f\"{slug}: should name one of {'/'.join(accepted)}\")",
+      "conversationRequestIds": [
+        {
+          "conversationId": "rgaa-a11y-judgement-0bba414c"
+        }
+      ]
+    },
+    {
+      "expectation": "low-contrast: should name one of 1.4.3",
+      "status": "BENCHMARK_TASK_RUN_ASSERTION_STATUS_PASSED",
+      "lineNumber": 29,
+      "definition": "kbench.assertions.assert_true(ok, expectation=f\"{slug}: should name one of {'/'.join(accepted)}\")",
+      "conversationRequestIds": [
+        {
+          "conversationId": "rgaa-a11y-judgement-0bba414c"
+        }
+      ]
+    },
+    {
+      "expectation": "div-button: should name one of 2.1.1/4.1.2",
+      "status": "BENCHMARK_TASK_RUN_ASSERTION_STATUS_PASSED",
+      "lineNumber": 29,
+      "definition": "kbench.assertions.assert_true(ok, expectation=f\"{slug}: should name one of {'/'.join(accepted)}\")",
+      "conversationRequestIds": [
+        {
+          "conversationId": "rgaa-a11y-judgement-0bba414c"
+        }
+      ]
+    },
+    {
+      "expectation": "no-lang: should name one of 3.1.1",
+      "status": "BENCHMARK_TASK_RUN_ASSERTION_STATUS_PASSED",
+      "lineNumber": 29,
+      "definition": "kbench.assertions.assert_true(ok, expectation=f\"{slug}: should name one of {'/'.join(accepted)}\")",
+      "conversationRequestIds": [
+        {
+          "conversationId": "rgaa-a11y-judgement-0bba414c"
+        }
+      ]
+    },
+    {
+      "expectation": "ok-link: should name one of NONE",
+      "status": "BENCHMARK_TASK_RUN_ASSERTION_STATUS_PASSED",
+      "lineNumber": 29,
+      "definition": "kbench.assertions.assert_true(ok, expectation=f\"{slug}: should name one of {'/'.join(accepted)}\")",
+      "conversationRequestIds": [
+        {
+          "conversationId": "rgaa-a11y-judgement-0bba414c"
+        }
+      ]
+    }
+  ],
+  "pyRunId": "rgaa-a11y-judgement-Run #1"
+}
